@@ -1,29 +1,25 @@
 import { PrismaClient } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
+import { getSession } from "~/sessions";
 
-export const loader = async () => {
-  const db = new PrismaClient();
-  const users = await db.Users.findMany();
-  console.log(users);
-  return users;
+export const loader = async ({ request }) => {
+  // session check
+  const session = await getSession(request.headers.get("Cookie"));
+  
+  return { session };
 };
 export default function Index() {
   const users = useLoaderData();
+  console.log(users);
   return (
     <div>
-      <p>Hello Remix</p>
+      <p className="text-center text-4xl p-10">Hello Remix</p>
       <Link prefetch="none" to={"/auth/login"}>
-        Log In
+        <button>Log In</button>
       </Link>
       <Link prefetch="none" to={"/auth/signup"}>
-        Sign Up
+        <button>Sign Up</button>
       </Link>
-      <p>hello world</p>
-      <ul>
-        {users.map((user) => (
-          <li key={user.id}>{user.name}</li>
-        ))}
-      </ul>
     </div>
   );
 }
