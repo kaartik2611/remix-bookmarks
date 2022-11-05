@@ -8,7 +8,7 @@ import {
 import { PrismaClient } from "@prisma/client";
 import { redirect } from "@remix-run/node";
 import { commitSession, getSession } from "~/sessions";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 export const loader = async ({ request }) => {
   const session = await getSession(request.headers.get("Cookie"));
