@@ -11,10 +11,4 @@ const { getSession, commitSession, destroySession } =
       secure: process.env.NODE_ENV === "production",
     },
   });
-export async function createUserSession(userId, redirectTo) {
-  const session = await getSession();
-  session.set("userId", userId);
-  await commitSession(session);
-  return redirect(redirectTo);
-}
 export { getSession, commitSession, destroySession };
