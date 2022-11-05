@@ -1,5 +1,4 @@
-// app/sessions.js
-import { createCookieSessionStorage, redirect } from "@remix-run/node"; // or cloudflare/deno
+import { createCookieSessionStorage } from "@remix-run/node"; // or cloudflare/deno
 const secret = process.env.SESSION_SECRET || "sike beach";
 const { getSession, commitSession, destroySession } =
   createCookieSessionStorage({

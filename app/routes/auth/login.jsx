@@ -1,14 +1,14 @@
 import { useEffect, useRef } from "react";
+import { redirect } from "@remix-run/node";
+import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcryptjs";
+import { commitSession, getSession } from "~/sessions";
 import {
   Form,
   useActionData,
   useLoaderData,
   useTransition,
 } from "@remix-run/react";
-import { PrismaClient } from "@prisma/client";
-import { redirect } from "@remix-run/node";
-import { commitSession, getSession } from "~/sessions";
-import bcrypt from "bcryptjs";
 
 export const loader = async ({ request }) => {
   const session = await getSession(request.headers.get("Cookie"));
@@ -17,11 +17,11 @@ export const loader = async ({ request }) => {
 
 export const action = async ({ request }) => {
   const formData = await request.formData();
-  const formObject = Object.fromEntries(formData);
+  const obj = Object.fromEntries(formData);
   const db = new PrismaClient();
   const user = await db.Users.findUnique({
     where: {
-      email: formObject.email,
+      email: obj.email,
     },
   });
   console.log(user);
@@ -29,7 +29,7 @@ export const action = async ({ request }) => {
     return { error: "Email does not exist" };
   } else {
     // comparePassword
-    const valid = await bcrypt.compare(formObject.password, user.passwordHash);
+    const valid = await bcrypt.compare(obj.password, user.passwordHash);
     console.log(valid);
     if (valid) {
       console.log(user);
@@ -46,6 +46,7 @@ export const action = async ({ request }) => {
     }
   }
 };
+
 function Login() {
   const { session } = useLoaderData();
   const { state } = useTransition();
@@ -58,6 +59,7 @@ function Login() {
     focusRef.current?.focus();
   }, [res]);
   let isSession = session.data.user ? true : false;
+
   return (
     <div>
       {isSession ? (
@@ -66,9 +68,21 @@ function Login() {
         <div>
           <Form method="post" ref={formRef}>
             <label htmlFor="email">Email</label>
-            <input type="text" name="email" ref={focusRef} />
+            <input
+              id="email"
+              type="text"
+              name="email"
+              ref={focusRef}
+              required
+            />
             <label htmlFor="password">Password</label>
-            <input type="password" name="password" autoComplete="on" />
+            <input
+              id="password"
+              type="password"
+              name="password"
+              autoComplete="on"
+              required
+            />
             <button type="submit">{busy ? "Submitting" : "Log In"}</button>
           </Form>
           <p>{res && res.error}</p>

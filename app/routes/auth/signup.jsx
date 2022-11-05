@@ -1,36 +1,44 @@
-import { PrismaClient } from "@prisma/client";
-import { redirect } from "@remix-run/node";
-import { Form, useActionData, useTransition } from "@remix-run/react";
 import { useEffect, useRef } from "react";
+import { redirect } from "@remix-run/node";
+import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { commitSession, getSession } from "~/sessions";
+import {
+  Form,
+  useActionData,
+  useLoaderData,
+  useTransition,
+} from "@remix-run/react";
+
+export const loader = async ({ request }) => {
+  const session = await getSession(request.headers.get("Cookie"));
+  return { session };
+};
+
 export async function action({ request }) {
-  const body = await request.formData();
-  const json = Object.fromEntries(body);
+  const formData = await request.formData();
+  const obj = Object.fromEntries(formData);
   const db = new PrismaClient();
-  if (json.email === "" || json.password === "" || json.name === "") {
+  if (obj.email === "" || obj.password === "" || obj.name === "") {
     return { error: "Please fill out all fields." };
   }
-  if (json.password.length < 8) {
+  if (obj.password.length < 8) {
     return { error: "Password must be at least 8 characters." };
   }
-  const hashedPassword = await bcrypt.hash(json.password, 10);
+  const hashedPassword = await bcrypt.hash(obj.password, 10);
   const newUser = {
-    email: json.email,
+    email: obj.email,
     passwordHash: hashedPassword,
-    name: json.name,
+    name: obj.name,
   };
   try {
     const x = await db.Users.create({
       data: newUser,
     });
-
-    // ! TODO add session here
-
     const userData = {
       userId: x.id,
-      email: json.email,
-      name: json.name,
+      email: obj.email,
+      name: obj.name,
     };
     const session = await getSession(request.headers.get("Cookie"));
     session.set("user", userData);
@@ -49,7 +57,9 @@ export async function action({ request }) {
     }
   }
 }
+
 export function SignUp() {
+  const { session } = useLoaderData();
   const { state } = useTransition();
   const busy = state === "submitting";
   const res = useActionData();
@@ -59,25 +69,39 @@ export function SignUp() {
     formRef.current?.reset();
     focusRef.current?.focus();
   }, [res]);
+  let isSession = session.data.user ? true : false;
+
   return (
-    <>
-      <Form method="post" ref={formRef}>
-        <label htmlFor="email">Email</label>
-        <input id="email" type="text" name="email" ref={focusRef} required />
-        <label htmlFor="name">Name</label>
-        <input id="name" type="text" name="name" required />
-        <label htmlFor="password">Password</label>
-        <input
-          id="password"
-          type="password"
-          name="password"
-          autoComplete="on"
-          required
-        />
-        <button type="submit">{busy ? "Submitting" : "Sign Up"}</button>
-      </Form>
-      <p>{res && res.error}</p>
-    </>
+    <div>
+      {isSession ? (
+        <p>You are already logged in.</p>
+      ) : (
+        <>
+          <Form method="post" ref={formRef}>
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="text"
+              name="email"
+              ref={focusRef}
+              required
+            />
+            <label htmlFor="name">Name</label>
+            <input id="name" type="text" name="name" required />
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              name="password"
+              autoComplete="on"
+              required
+            />
+            <button type="submit">{busy ? "Submitting" : "Sign Up"}</button>
+          </Form>
+          <p>{res && res.error}</p>
+        </>
+      )}
+    </div>
   );
 }
 
