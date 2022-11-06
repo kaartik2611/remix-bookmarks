@@ -1,8 +1,7 @@
 import { useEffect, useRef } from "react";
-import { redirect } from "@remix-run/node";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
-import { commitSession, getSession } from "~/sessions";
+import { createUserSession, getSession } from "~/sessions";
 import {
   Form,
   useActionData,
@@ -30,17 +29,8 @@ export const action = async ({ request }) => {
   } else {
     // comparePassword
     const valid = await bcrypt.compare(obj.password, user.passwordHash);
-    console.log(valid);
     if (valid) {
-      console.log(user);
-      const session = await getSession(request.headers.get("Cookie"));
-      session.set("user", user);
-      const cookie = await commitSession(session);
-      return redirect("/", {
-        headers: {
-          "Set-Cookie": cookie,
-        },
-      });
+      return createUserSession(request, user);
     } else {
       return { error: "Incorrect Username or password" };
     }

@@ -1,5 +1,5 @@
 {
-  "include": ["**/*.js", "**/*.jsx", "app/utils/auth.server.js"],
+  "include": ["**/*.js", "**/*.jsx"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2019"],
     "isolatedModules": true,
@@ -16,5 +16,13 @@
       "~/*": ["./app/*"]
     },
     "noEmit": true
-  }
+  },
+  "exclude": [
+    ".cache",
+    ".git",
+    ".npm",
+    ".npm-tmp",
+    "node_modules",
+    "**/node_modules/*"
+  ]
 }

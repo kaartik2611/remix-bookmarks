@@ -1,8 +1,7 @@
 import { useEffect, useRef } from "react";
-import { redirect } from "@remix-run/node";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
-import { commitSession, getSession } from "~/sessions";
+import { createUserSession, getSession } from "~/sessions";
 import {
   Form,
   useActionData,
@@ -32,22 +31,15 @@ export async function action({ request }) {
     name: obj.name,
   };
   try {
-    const x = await db.Users.create({
+    const res = await db.Users.create({
       data: newUser,
     });
     const userData = {
-      userId: x.id,
+      userId: res.id,
       email: obj.email,
       name: obj.name,
     };
-    const session = await getSession(request.headers.get("Cookie"));
-    session.set("user", userData);
-    const cookie = await commitSession(session);
-    return redirect("/", {
-      headers: {
-        "Set-Cookie": cookie,
-      },
-    });
+    return createUserSession(request, userData);
   } catch (e) {
     if (e.code === "P2002") {
       return { error: "Email already exists." };

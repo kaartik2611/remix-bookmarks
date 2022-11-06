@@ -1,4 +1,4 @@
-import { createCookieSessionStorage } from "@remix-run/node"; // or cloudflare/deno
+import { createCookieSessionStorage, redirect } from "@remix-run/node"; // or cloudflare/deno
 const secret = process.env.SESSION_SECRET || "sike beach";
 const { getSession, commitSession, destroySession } =
   createCookieSessionStorage({
@@ -11,3 +11,14 @@ const { getSession, commitSession, destroySession } =
     },
   });
 export { getSession, commitSession, destroySession };
+
+export const createUserSession = async (request, userData) => {
+  const session = await getSession(request.headers.get("Cookie"));
+  session.set("user", userData);
+  const cookie = await commitSession(session);
+  return redirect("/", {
+    headers: {
+      "Set-Cookie": cookie,
+    },
+  });
+};
