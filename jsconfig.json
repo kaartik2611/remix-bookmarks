@@ -17,12 +17,5 @@
     },
     "noEmit": true
   },
-  "exclude": [
-    ".cache",
-    ".git",
-    ".npm",
-    ".npm-tmp",
-    "node_modules",
-    "**/node_modules/*"
-  ]
+  "exclude": ["**/node_modules", "**/build", "scripts", "webpack.config.js"]
 }

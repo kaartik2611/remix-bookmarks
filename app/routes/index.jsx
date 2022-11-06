@@ -1,14 +1,23 @@
 import { Link, useLoaderData } from "@remix-run/react";
-import Folders from "~/components/Folders";
 import { getSession } from "~/sessions";
-
+import { db } from "~/utils/db";
 export const loader = async ({ request }) => {
-  const session = await getSession(request.headers.get("Cookie"));
-  return { session };
+  let session = await getSession(request.headers.get("Cookie"));
+  let isSession = session.data.user ? true : false;
+  if (isSession) {
+    let user = session.data.user;
+    let folders = await db.linkFolders.findMany({
+      where: {
+        userId: user.id,
+      },
+    });
+    return { folders, isSession, user };
+  }
+  return { isSession };
 };
 export default function Index() {
-  const { session } = useLoaderData();
-  let isSession = session.data.user ? true : false;
+  const { folders, isSession, user } = useLoaderData();
+  // console.log(folders, user);
   return (
     <>
       <div>
@@ -23,12 +32,14 @@ export default function Index() {
             </Link>
           </>
         ) : (
-          <Link prefetch="none" to={"/auth/logout"}>
-            <button>Log Out</button>
-          </Link>
+          <>
+            <p>Hello {user.name}</p>
+            <Link prefetch="none" to={"/auth/logout"}>
+              <button>Log Out</button>
+            </Link>
+          </>
         )}
       </div>
-      <Folders />
     </>
   );
 }
