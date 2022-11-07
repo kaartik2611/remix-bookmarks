@@ -43,12 +43,10 @@ export const action = async ({ request, params }) => {
 };
 
 export default function Folder() {
-  const params = useParams();
   const { links } = useLoaderData();
   console.log(links);
   return (
     <>
-      <p>{params.folderId}</p>
       <div>
         {links.map((link) => {
           return (

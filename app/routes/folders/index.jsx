@@ -1,6 +1,13 @@
-import { Form, Link, useLoaderData } from "@remix-run/react";
+import {
+  Form,
+  Link,
+  useActionData,
+  useLoaderData,
+  useTransition,
+} from "@remix-run/react";
 import { getSession } from "~/sessions";
 import { db } from "~/utils/db";
+import { useRef, useEffect } from "react";
 
 export const loader = async ({ request }) => {
   let session = await getSession(request.headers.get("Cookie"));
@@ -40,9 +47,17 @@ export const action = async ({ request }) => {
     data: newFolder,
   });
 };
-
 function Folders() {
+  const transition = useTransition();
+  const isCreating = transition.submission?.formData.get("intent") === "create";
   const { folders } = useLoaderData();
+  const res = useActionData();
+  const formRef = useRef();
+  const focusRef = useRef();
+  useEffect(() => {
+    formRef.current?.reset();
+    focusRef.current?.focus();
+  }, [res]);
   return (
     <>
       <div className="grid grid-cols-3 p-4">
@@ -50,27 +65,34 @@ function Folders() {
           return (
             <div key={folder.id} className="border-2 p-1">
               <Link to={`/folders/${folder.id}`}>
-                <p>{folder.name}</p>
-                <Form method="post">
-                  <input type="hidden" name="id" value={folder.id} />
-                  <button
-                    type="submit"
-                    name="intent"
-                    value="delete"
-                    className="border p-2"
-                  >
-                    Delete
-                  </button>
-                </Form>
+                <p className="text-center">{folder.name}</p>
               </Link>
+              <Form method="post">
+                <input type="hidden" name="id" value={folder.id} />
+                <button
+                  type="submit"
+                  name="intent"
+                  value="delete"
+                  className="border p-2"
+                >
+                  Delete
+                </button>
+              </Form>
             </div>
           );
         })}
       </div>
-      <Form method="post">
+      <Form method="post" ref={formRef}>
         <label htmlFor="name">Create New Folder</label>
-        <input type="text" id="name" name="name" required />
-        <button type="submit">Create</button>
+        <input type="text" id="name" name="name" ref={focusRef} required />
+        <button
+          type="submit"
+          name="intent"
+          value="create"
+          disabled={isCreating}
+        >
+          {isCreating ? "Creating..." : "Create"}
+        </button>
       </Form>
     </>
   );

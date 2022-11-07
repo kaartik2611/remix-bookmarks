@@ -21,7 +21,7 @@ model LinkFolders {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId    Int
-  user      Users    @relation(fields: [userId], references: [id])
+  user      Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
   links     Link[]
 }
 
@@ -32,5 +32,5 @@ model Link {
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
   folderId  Int
-  folder    LinkFolders @relation(fields: [folderId], references: [id])
+  folder    LinkFolders @relation(fields: [folderId], references: [id], onDelete: Cascade)
 }
