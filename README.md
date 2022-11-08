@@ -1,1 +1,1 @@
-# Bookmark App made w Remix TailwindCSS
+# Bookmark App made w Remix TailwindCSS and Prisma.
