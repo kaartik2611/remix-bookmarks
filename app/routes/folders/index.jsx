@@ -26,7 +26,7 @@ export const loader = async ({ request }) => {
         return { ...folder, links };
       })
     );
-    return { folders, user };
+    return { isSession, folders, user };
   }
   return { isSession };
 };
@@ -66,7 +66,7 @@ function Folders() {
     focusRef.current?.focus();
   }, [res]);
   return (
-    <>
+    <div className='flex flex-col sm:h-full'>
       {isSession ? (
         <div className="flex justify-center h-full">
           <main className="mx-4 md:mx-20 xl:mx-36">
@@ -160,7 +160,7 @@ function Folders() {
           <p className="text-center text-2xl">Login to continue</p>
         </div>
       )}
-    </>
+    </div>
   );
 }
 

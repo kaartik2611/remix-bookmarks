@@ -51,9 +51,9 @@ function Login() {
   let isSession = session.data.user ? true : false;
 
   return (
-    <div>
+    <div className="h-full">
       {isSession ? (
-        <p classname="text-center text-3xl pt-10">You are already logged in.</p>
+        <p className="text-center text-3xl pt-10">You are already logged in.</p>
       ) : (
         <>
           <Form

@@ -64,7 +64,7 @@ export function SignUp() {
   let isSession = session.data.user ? true : false;
 
   return (
-    <div>
+    <div className="h-full">
       {isSession ? (
         <p className="text-center text-3xl pt-10">You are already logged in.</p>
       ) : (

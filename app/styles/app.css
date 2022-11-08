@@ -894,6 +894,10 @@ video {
     display: flex;
   }
 
+  .sm\:h-full {
+    height: 100%;
+  }
+
   .sm\:max-w-\[24rem\] {
     max-width: 24rem;
   }
