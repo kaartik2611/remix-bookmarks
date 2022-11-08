@@ -53,30 +53,51 @@ function Login() {
   return (
     <div>
       {isSession ? (
-        <p>You are already logged in.</p>
+        <p classname="text-center text-3xl pt-10">You are already logged in.</p>
       ) : (
-        <div>
-          <Form method="post" ref={formRef}>
-            <label htmlFor="email">Email</label>
-            <input
-              id="email"
-              type="text"
-              name="email"
-              ref={focusRef}
-              required
-            />
-            <label htmlFor="password">Password</label>
-            <input
-              id="password"
-              type="password"
-              name="password"
-              autoComplete="on"
-              required
-            />
-            <button type="submit">{busy ? "Submitting" : "Log In"}</button>
+        <>
+          <Form
+            method="post"
+            ref={formRef}
+            className="flex justify-center pt-10"
+          >
+            <div className="flex flex-col">
+              <label htmlFor="email" className="block uppercase font-bold">
+                Email
+              </label>
+              <input
+                className="my-2 p-2 border-2 border-neutral-300 rounded-md"
+                id="email"
+                type="text"
+                name="email"
+                ref={focusRef}
+                placeholder="Enter Email"
+                required
+              />
+              <label htmlFor="password" className="block uppercase font-bold">
+                Password
+              </label>
+              <input
+                className="my-2 p-2 border-2 border-neutral-300 rounded-md"
+                id="password"
+                type="password"
+                name="password"
+                autoComplete="on"
+                placeholder="Enter Password"
+                required
+              />
+              <button
+                aria-label="Login"
+                title="Login"
+                type="submit"
+                className="m-2 p-2 border-2 border-neutral-300 rounded-md"
+              >
+                {busy ? "Submitting" : "Log In"}
+              </button>
+            </div>
           </Form>
           <p>{res && res.error}</p>
-        </div>
+        </>
       )}
     </div>
   );
