@@ -7,7 +7,7 @@ const { getSession, commitSession, destroySession } =
       httpOnly: true,
       sameSite: "lax",
       secrets: [secret],
-      secure: process.env.NODE_ENV === "production",
+      secure:true,
     },
   });
 export { getSession, commitSession, destroySession };
