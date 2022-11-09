@@ -46,7 +46,7 @@ export const action = async ({ request }) => {
   const obj = Object.fromEntries(formData);
   const newFolder = {
     name: obj.name,
-    userId: user.id,
+    userId: user.userId,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };

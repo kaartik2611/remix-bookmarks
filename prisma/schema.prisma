@@ -8,11 +8,11 @@ datasource db {
 }
 
 model Users {
-  id           Int           @id @default(autoincrement())
-  email        String        @unique
-  name         String
-  passwordHash String
-  LinkFolders  LinkFolders[]
+  id          Int           @id @default(autoincrement())
+  email       String        @unique
+  name        String
+  password    String
+  LinkFolders LinkFolders[]
 }
 
 model LinkFolders {
