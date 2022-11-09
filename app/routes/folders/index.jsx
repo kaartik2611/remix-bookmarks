@@ -46,7 +46,7 @@ export const action = async ({ request }) => {
   const obj = Object.fromEntries(formData);
   const newFolder = {
     name: obj.name,
-    userId: user.userId,
+    userId: user.id,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };
@@ -66,7 +66,7 @@ function Folders() {
     focusRef.current?.focus();
   }, [res]);
   return (
-    <div className='flex flex-col sm:h-full'>
+    <div className="flex flex-col sm:h-full">
       {isSession ? (
         <div className="flex justify-center h-full">
           <main className="mx-4 md:mx-20 xl:mx-36">
