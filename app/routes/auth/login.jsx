@@ -28,7 +28,7 @@ export const action = async ({ request }) => {
     return { error: "Email does not exist" };
   } else {
     // comparePassword
-    const valid = await bcrypt.compare(obj.passwordHash, user.passwordHash);
+    const valid = await bcrypt.compare(obj.password, user.passwordHash);
     if (valid) {
       return createUserSession(request, user);
     } else {
