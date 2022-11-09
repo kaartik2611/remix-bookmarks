@@ -27,7 +27,7 @@ export async function action({ request }) {
   const hashedPassword = await bcrypt.hash(obj.password, 10);
   const newUser = {
     email: obj.email,
-    passwordHash: hashedPassword,
+    password: hashedPassword,
     name: obj.name,
   };
   try {

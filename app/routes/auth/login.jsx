@@ -75,7 +75,7 @@ function Login() {
                 required
               />
               <label
-                htmlFor="passwordHash"
+                htmlFor="password"
                 className="block uppercase font-bold"
               >
                 Password
@@ -84,7 +84,7 @@ function Login() {
                 className="my-2 p-2 border-2 border-neutral-300 rounded-md"
                 id="password"
                 type="password"
-                name="passwordHash"
+                name="password"
                 autoComplete="on"
                 placeholder="Enter Password"
                 required
