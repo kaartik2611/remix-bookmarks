@@ -10,18 +10,18 @@ function Navbar({ user, isSession }) {
           </Link>
         </div>
         <div className="flex flex-row my-3 space-x-1 sm:space-x-3 text-sm sm:text-base">
-          <Link to="/">
-            <div className="bg-neutral-300 hover:shadow-md p-1 sm:p-2 rounded sm:rounded-lg">
-              Home
-            </div>
-          </Link>
           {isSession ? (
             <>
-              <Link to="/folders">
-                <div className="bg-neutral-300 hover:shadow-md p-1 sm:p-2 rounded sm:rounded-lg">
-                  Folders
-                </div>
-              </Link>
+              <div className="">
+                <Link to="/folders">
+                  <div className="bg-neutral-300 hover:shadow-md p-1 sm:p-2 rounded sm:rounded-lg">
+                    Folders
+                  </div>
+                </Link>
+              </div>
+              <div className="bg-neutral-300 rounded-full p-1 sm:p-2 hover:shadow-md">
+                <button>{user.name.split(" ").map((e) => e[0])}</button>
+              </div>
               <Link prefetch="none" to={"/auth/logout"}>
                 <div className="bg-neutral-300 hover:shadow-md p-1 sm:p-2 rounded sm:rounded-lg">
                   Log Out

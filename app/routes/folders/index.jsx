@@ -66,101 +66,103 @@ function Folders() {
     focusRef.current?.focus();
   }, [res]);
   return (
-    <div className="flex flex-col sm:h-full">
+    <>
       {isSession ? (
-        <div className="flex justify-center h-full">
-          <main className="mx-4 md:mx-20 xl:mx-36">
-            <p className="text-4xl text-center py-4">All Folders</p>
-            <div className="flex justify-end">
-              {folders.length > 0 && (
-                <button
-                  className="text-xl border-2 bg-neutral-300 border-neutral-500 p-2 cursor-pointer mr-4 rounded-md"
-                  aria-label="Add Folder"
-                  title="Add Folder"
-                  onClick={() => focusRef.current?.focus()}
-                >
-                  Add Folder
-                </button>
-              )}
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-4 gap-4">
-              {folders.map((folder) => {
-                return (
-                  <div
-                    key={folder.id}
-                    className="border-2 border-neutral-300 bg-neutral-100 rounded-md p-3 pb-4 min-w-[15rem]"
+        <>
+          <div className="flex justify-center">
+            <main className="mx-4 md:mx-20 xl:mx-36">
+              <p className="text-4xl text-center py-4">All Folders</p>
+              <div className="flex justify-end">
+                {folders.length > 0 && (
+                  <button
+                    className="text-xl border-2 bg-neutral-300 border-neutral-500 p-2 cursor-pointer mr-4 rounded-md"
+                    aria-label="Add Folder"
+                    title="Add Folder"
+                    onClick={() => focusRef.current?.focus()}
                   >
-                    <Link to={`/folders/${folder.id}`}>
-                      <p className="text-center text-xl py-3 px-2 truncate">
-                        {folder.name}
-                      </p>
-                      <div className="text-lg">
-                        {folder.links ? (
-                          <p className="py-2">
-                            {folder.links}{" "}
-                            {folder.links === 1 ? "link " : "links "}
-                            present
-                          </p>
-                        ) : (
-                          <p className="py-2">Click to add links</p>
-                        )}
-                      </div>
-                    </Link>
-                    <Form method="post">
-                      <input type="hidden" name="id" value={folder.id} />
-                      <button
-                        aria-label="Delete Folder"
-                        title="Delete Folder"
-                        type="submit"
-                        name="intent"
-                        value="delete"
-                        className="border p-1.5 border-red-600 bg-red-50 "
-                      >
-                        Delete Folder
-                      </button>
-                    </Form>
-                  </div>
-                );
-              })}
-            </div>
-            <div className="flex justify-center pt-5">
-              <Form method="post" ref={formRef}>
-                <label
-                  htmlFor="name"
-                  className="block font-bold uppercase text-sm"
-                >
-                  Create New Folder
-                </label>
-                <input
-                  placeholder="Folder Name"
-                  type="text"
-                  id="name"
-                  name="name"
-                  ref={focusRef}
-                  className="p-2 border-2 border-neutral-300 rounded-md"
-                  required
-                />
-                <button
-                  aria-label="Create Folder"
-                  title="Create Folder"
-                  type="submit"
-                  name="intent"
-                  value="create"
-                  disabled={isCreating}
-                  className="m-2 p-2 border-2 border-neutral-300 rounded-md"
-                >
-                  {isCreating ? "Creating..." : "Create"}
-                </button>
-              </Form>
-            </div>
-          </main>
-        </div>
+                    Add Folder
+                  </button>
+                )}
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-4 gap-4">
+                {folders.map((folder) => {
+                  return (
+                    <div
+                      key={folder.id}
+                      className="border-2 border-neutral-300 bg-neutral-100 rounded-md p-3 pb-4 min-w-[15rem]"
+                    >
+                      <Link to={`/folders/${folder.id}`}>
+                        <p className="text-center text-xl py-3 px-2 truncate">
+                          {folder.name}
+                        </p>
+                        <div className="text-lg">
+                          {folder.links ? (
+                            <p className="py-2">
+                              {folder.links}{" "}
+                              {folder.links === 1 ? "link " : "links "}
+                              present
+                            </p>
+                          ) : (
+                            <p className="py-2">Click to add links</p>
+                          )}
+                        </div>
+                      </Link>
+                      <Form method="post">
+                        <input type="hidden" name="id" value={folder.id} />
+                        <button
+                          aria-label="Delete Folder"
+                          title="Delete Folder"
+                          type="submit"
+                          name="intent"
+                          value="delete"
+                          className="border p-1.5 border-red-600 bg-red-50 "
+                        >
+                          Delete Folder
+                        </button>
+                      </Form>
+                    </div>
+                  );
+                })}
+              </div>
+            </main>
+          </div>
+          <div className="flex justify-center pt-5 h-full ">
+            <Form method="post" ref={formRef}>
+              <label
+                htmlFor="name"
+                className="block font-bold uppercase text-sm"
+              >
+                Create New Folder
+              </label>
+              <input
+                placeholder="Folder Name"
+                type="text"
+                id="name"
+                name="name"
+                ref={focusRef}
+                className="p-2 border-2 border-neutral-300 rounded-md"
+                required
+              />
+              <button
+                aria-label="Create Folder"
+                title="Create Folder"
+                type="submit"
+                name="intent"
+                value="create"
+                disabled={isCreating}
+                className="m-2 p-2 border-2 border-neutral-300 rounded-md"
+              >
+                {isCreating ? "Creating..." : "Create"}
+              </button>
+            </Form>
+          </div>
+        </>
       ) : (
         <div className="h-full pt-10">
           <p className="text-center text-2xl">Login to continue</p>
         </div>
       )}
-    </div>
+    </>
   );
 }
 
