@@ -1,5 +1,5 @@
 import { createCookieSessionStorage, redirect } from "@remix-run/node"; // or cloudflare/deno
-const secret = process.env.SESSION_SECRET || "sike beach";
+const secret = process.env.SESSION_SECRET;
 const { getSession, commitSession, destroySession } =
   createCookieSessionStorage({
     cookie: {
@@ -7,7 +7,7 @@ const { getSession, commitSession, destroySession } =
       httpOnly: true,
       sameSite: "lax",
       secrets: [secret],
-      secure:true,
+      secure: true,
     },
   });
 export { getSession, commitSession, destroySession };
