@@ -28,7 +28,7 @@ export const action = async ({ request }) => {
     return { error: "Email does not exist" };
   } else {
     // comparePassword
-    const valid = await bcrypt.compare(obj.password, user.passwordHash);
+    const valid = await bcrypt.compare(obj.passwordHash, user.passwordHash);
     if (valid) {
       return createUserSession(request, user);
     } else {
@@ -75,7 +75,7 @@ function Login() {
                 required
               />
               <label
-                htmlFor="password"
+                htmlFor="passwordHash"
                 className="block uppercase font-bold"
               >
                 Password
@@ -84,7 +84,7 @@ function Login() {
                 className="my-2 p-2 border-2 border-neutral-300 rounded-md"
                 id="password"
                 type="password"
-                name="password"
+                name="passwordHash"
                 autoComplete="on"
                 placeholder="Enter Password"
                 required

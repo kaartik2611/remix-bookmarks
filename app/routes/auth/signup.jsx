@@ -27,7 +27,7 @@ export async function action({ request }) {
   const hashedPassword = await bcrypt.hash(obj.password, 10);
   const newUser = {
     email: obj.email,
-    password: hashedPassword,
+    passwordHash: hashedPassword,
     name: obj.name,
   };
   try {
@@ -45,7 +45,7 @@ export async function action({ request }) {
       return { error: "Email already exists." };
     } else {
       console.error(e);
-      return { error: JSON.stringify(e) };
+      return { error: JSON.stringify };
     }
   }
 }
