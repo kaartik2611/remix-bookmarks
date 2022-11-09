@@ -45,7 +45,7 @@ export async function action({ request }) {
       return { error: "Email already exists." };
     } else {
       console.error(e);
-      return { error: "Something went wrong." };
+      return { error: JSON.stringify(e) };
     }
   }
 }
