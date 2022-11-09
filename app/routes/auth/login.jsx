@@ -74,7 +74,10 @@ function Login() {
                 placeholder="Enter Email"
                 required
               />
-              <label htmlFor="passwordHash" className="block uppercase font-bold">
+              <label
+                htmlFor="passwordHash"
+                className="block uppercase font-bold"
+              >
                 Password
               </label>
               <input
