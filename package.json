@@ -15,9 +15,7 @@
     "@vercel/node": "^2.4.4",
     "bcryptjs": "^2.4.3",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "remix-auth": "^3.3.0",
-    "remix-auth-auth0": "^1.4.1"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@remix-run/dev": "^1.7.4",
